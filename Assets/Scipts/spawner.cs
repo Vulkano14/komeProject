@@ -8,7 +8,7 @@ public class spawner : MonoBehaviour
     public float spawnRate = 4f;
     private float nextSpawnTime;
     private BoxCollider2D boundsCollider;
-    public short scoreNumber = 2;
+    public short scoreNumber = 0;
 
     private void Start()
     {
@@ -46,6 +46,8 @@ public class spawner : MonoBehaviour
             Instantiate(enemyPrefab, randomPosition, Quaternion.identity);
 
             nextSpawnTime = Time.time + spawnRate;
+
+            scoreNumber++;
         }
     }
 }

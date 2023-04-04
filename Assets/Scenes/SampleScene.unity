@@ -153,8 +153,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 895872425098024276, guid: cf4036f60954d4b4092959f2a9da1eee, type: 3}
-  spawnRate: 4
-  scoreNumber: 3
+  spawnRate: 0.1
+  scoreNumber: 0
 --- !u!4 &144070349
 Transform:
   m_ObjectHideFlags: 0

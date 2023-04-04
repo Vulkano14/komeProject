@@ -7,19 +7,44 @@ public class spawner : MonoBehaviour
     public GameObject enemyPrefab;
     public float spawnRate = 4f;
     private float nextSpawnTime;
+    private BoxCollider2D boundsCollider;
+    public short scoreNumber = 2;
 
+    private void Start()
+    {
+        boundsCollider = FindObjectOfType<cmaeraBlockedArrea>().boundsCollider;
+    }
     void Update()
     {
-        // Sprawdzamy, czy up³yn¹³ czas spawnu kolejnego przeciwnika
         if (Time.time >= nextSpawnTime)
         {
-            // Losujemy pozycjê przeciwnika w zakresie widocznoœci kamery
-            Vector3 randomPosition = Camera.main.ViewportToWorldPoint(new Vector3(Random.value, Random.value, 1f));
+            int edgeIndex = Random.Range(0, 4);
+            Vector3 randomPosition = Vector3.zero;
 
-            // Tworzymy now¹ instancjê przeciwnika w wylosowanej pozycji
+
+            switch (edgeIndex)
+            {
+                case 0: // górna krawêdŸ
+                    randomPosition = new Vector3(Random.Range(boundsCollider.bounds.min.x, boundsCollider.bounds.max.x), boundsCollider.bounds.max.y, 0f);
+                    break;
+
+                case 1: // dolna krawêdŸ
+                    randomPosition = new Vector3(Random.Range(boundsCollider.bounds.min.x, boundsCollider.bounds.max.x), boundsCollider.bounds.min.y, 0f);
+                    break;
+
+                case 2: // lewa krawêdŸ
+                    randomPosition = new Vector3(boundsCollider.bounds.min.x, Random.Range(boundsCollider.bounds.min.y, boundsCollider.bounds.max.y), 0f);
+                    break;
+
+                case 3: // prawa krawêdŸ
+                    randomPosition = new Vector3(boundsCollider.bounds.max.x, Random.Range(boundsCollider.bounds.min.y, boundsCollider.bounds.max.y), 0f);
+                    break;
+
+                    
+            }
+
             Instantiate(enemyPrefab, randomPosition, Quaternion.identity);
 
-            // Ustawiamy czas spawnu kolejnego przeciwnika
             nextSpawnTime = Time.time + spawnRate;
         }
     }

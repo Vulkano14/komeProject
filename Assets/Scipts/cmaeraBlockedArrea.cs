@@ -8,16 +8,12 @@ public class cmaeraBlockedArrea : MonoBehaviour
     public BoxCollider2D boundsCollider;
     private void Start()
     {
-        // Pobierz komponent kamery
         mainCamera = Camera.main;
-
-
-        // Pobierz lub dodaj komponent BoxCollider2D
         boundsCollider = GetComponent<BoxCollider2D>();
+
+
         if (boundsCollider == null)
-        {
             boundsCollider = gameObject.AddComponent<BoxCollider2D>();
-        }
 
         // Ustaw rozmiary BoxCollider2D na rozmiary kamery
         float screenAspect = (float)Screen.width / (float)Screen.height;

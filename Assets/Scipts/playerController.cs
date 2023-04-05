@@ -11,12 +11,14 @@ public class playerController : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private Rigidbody2D rb;
     private BoxCollider2D boundsCollider;
+    private Animator _animator;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         boundsCollider = FindObjectOfType<cmaeraBlockedArrea>().boundsCollider;
+        _animator = GetComponent<Animator>();
     }
 
     void Update()
@@ -36,6 +38,8 @@ public class playerController : MonoBehaviour
             else if (touch.phase == TouchPhase.Ended)
                 moveDirection = Vector2.zero;
         }
+
+        swordAttack();
     }
 
     void FixedUpdate()
@@ -52,36 +56,21 @@ public class playerController : MonoBehaviour
         rb.position = new Vector2(xPosition, yPosition);
     }
 
+    void swordAttack()
+    {
+        if (Input.touchCount > 0)
+        {
+            Touch touch = Input.GetTouch(0);
 
-    //public GameObject sword; // obiekt miecza
-    //public Transform swordSpawnPoint; // pozycja, z której wystrzelony zostanie miecz
-    //public float swordAttackDuration = 0.5f; // czas trwania animacji ataku mieczem
-    //public float swordAttackCooldown = 1f; // czas odnowienia ataku mieczem
-    //private bool canAttack = true; // flaga, która mówi, czy postaæ mo¿e atakowaæ mieczem
-
-    //void swordAttack()
-    //{
-    //    if (Input.touchCount > 0)
-    //    {
-    //        Touch touch = Input.GetTouch(0);
-
-    //        if (touch.phase == TouchPhase.Began)
-    //        {
-    //            // SprawdŸ, czy gracz dotkn¹³ prawej strony ekranu
-    //            if (touch.position.x > Screen.width / 2)
-    //            {
-    //                // SprawdŸ, czy postaæ mo¿e atakowaæ mieczem
-    //                if (canAttack)
-    //                {
-    //                    // Stwórz nowy obiekt miecza na pozycji swordSpawnPoint i obróæ go zgodnie z kierunkiem ruchu postaci
-    //                    GameObject newSword = Instantiate(sword, swordSpawnPoint.position, Quaternion.identity);
-    //                    newSword.transform.rotation = Quaternion.LookRotation(Vector3.forward, moveDirection);
-
-    //                    // Uruchom animacjê ataku mieczem i ustaw canAttack na false
-    //                    StartCoroutine(SwordAttackCoroutine());
-    //                }
-    //            }
-    //        }
-    //    }
-    //}
+            if (touch.phase == TouchPhase.Began)
+            {
+                if (touch.position.x > Screen.width / 2)
+                    _animator.SetBool("attack", true);
+            }
+            else if (touch.phase == TouchPhase.Ended)
+            {
+                _animator.SetBool("attack", false);
+            }
+        }
+    }
 }

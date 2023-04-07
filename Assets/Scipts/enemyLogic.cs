@@ -6,10 +6,16 @@ public class enemyLogic : MonoBehaviour
 {
     private Transform player;
     private int _colisions = 0;
-    [SerializeField]private float speed = 1f;
+    [SerializeField] float speed = 1f;
     private SpriteRenderer _sprite;
     private bool _canAttack;
+    bool _canAttackEnemy = false;
+    float _attackCooldownEnemy;
     private float _attackCooldown;
+    [SerializeField] GameObject _ammoPrefab;
+    [SerializeField] Transform _positionFire;
+    [SerializeField] float distance;
+
 
     void Start()
     {
@@ -35,24 +41,60 @@ public class enemyLogic : MonoBehaviour
                 _sprite.color = Color.white;
             }
         }
+
+        if (!_canAttackEnemy)
+        {
+            _attackCooldownEnemy -= Time.deltaTime;
+
+            if (_attackCooldownEnemy <= 0f)
+            {
+                _canAttackEnemy = true;
+            }
+        }
+
+
+        float distanceToPlayer = Vector2.Distance(transform.position, player.position);
+
+        if (distanceToPlayer < distance)
+        {
+            if (_canAttackEnemy)
+            {
+                Shoot();
+                _canAttackEnemy = false;
+            }
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
+        if (collision.CompareTag("WeaponAxe"))
         {
-            _sprite.color = Color.red;
+            if (_sprite.color == Color.white)
+            {
+                _sprite.color = Color.red;
 
-            if (_canAttack == true)
-                _colisions++;
+                if (_canAttack == true)
+                    _colisions++;
 
+                _canAttack = false;
+                _attackCooldown = 2f;
 
-            _canAttack = false;
-            _attackCooldown = 2f;
-
-            if (_colisions >= 3)
-                Destroy(gameObject);
+                if (_colisions >= 3)
+                    Destroy(gameObject);
+            }
         }      
+    }
+
+
+
+    void Shoot()
+    {
+        GameObject bullet = Instantiate(_ammoPrefab, _positionFire.position, _positionFire.rotation);
+
+        Vector2 shootingDirection = (player.position - transform.position).normalized;
+        bullet.GetComponent<Rigidbody2D>().velocity = shootingDirection * 4f;
+
+        _attackCooldownEnemy = 3f;
     }
 }
 

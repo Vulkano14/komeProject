@@ -12,6 +12,8 @@ public class playerController : MonoBehaviour
     private Rigidbody2D rb;
     private BoxCollider2D boundsCollider;
     private Animator _animator;
+    [SerializeField]GameObject _character;
+    bool _characterRotated = true;
 
     void Start()
     {
@@ -46,10 +48,11 @@ public class playerController : MonoBehaviour
     {
         rb.velocity = moveDirection * speed;
 
-        if (moveDirection.x > 0)
-            spriteRenderer.flipX = true;
-        else if (moveDirection.x < 0)
-            spriteRenderer.flipX = false;
+        if (moveDirection.x > 0 && _characterRotated)
+            CharacterRotated();
+
+        else if (moveDirection.x < 0 && !_characterRotated)
+            CharacterRotatedUndo();
 
         float xPosition = Mathf.Clamp(rb.position.x, boundsCollider.bounds.min.x + 0.5f, boundsCollider.bounds.max.x - 0.5f);
         float yPosition = Mathf.Clamp(rb.position.y, boundsCollider.bounds.min.y + 0.5f, boundsCollider.bounds.max.y - 0.5f);
@@ -72,5 +75,17 @@ public class playerController : MonoBehaviour
                 _animator.SetBool("attack", false);
             }
         }
+    }
+
+    void CharacterRotated()
+    {
+        _characterRotated = false;
+        _character.transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
+    }
+
+    void CharacterRotatedUndo()
+    {
+        _characterRotated = true;
+        _character.transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
     }
 }

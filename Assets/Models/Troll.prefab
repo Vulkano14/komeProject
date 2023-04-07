@@ -147,3 +147,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 1
+  _ammoPrefab: {fileID: 3975533976479064100, guid: b4b4f7d92e12f7740baf89adf0a50f71, type: 3}
+  _positionFire: {fileID: 8763145694373599041}
+  distance: 10

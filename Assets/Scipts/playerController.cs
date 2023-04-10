@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class playerController : MonoBehaviour
 {
@@ -14,6 +15,13 @@ public class playerController : MonoBehaviour
     private Animator _animator;
     [SerializeField]GameObject _character;
     bool _characterRotated = true;
+
+    [SerializeField] Text _healthText;
+    private int _health = 100;
+    int _damageTroll = 10;
+
+    float cooldownGetDamage;
+    bool zmienna = true;
 
     void Start()
     {
@@ -42,6 +50,12 @@ public class playerController : MonoBehaviour
         }
 
         swordAttack();
+
+        if (!zmienna)
+            GetDamage();
+
+        _healthText.text = "" + _health;
+        Debug.Log(cooldownGetDamage);
     }
 
     void FixedUpdate()
@@ -87,5 +101,28 @@ public class playerController : MonoBehaviour
     {
         _characterRotated = true;
         _character.transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
+    }
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (zmienna)
+            if (collision.CompareTag("Troll"))
+            {
+                _health -= _damageTroll;
+                cooldownGetDamage = 3f;
+                zmienna = false;
+            }
+    }
+
+    void GetDamage()
+    {
+        if (!zmienna)
+        {
+            cooldownGetDamage -= Time.deltaTime;
+
+            if (cooldownGetDamage <= 0f)
+                zmienna = true;
+
+        }
     }
 }

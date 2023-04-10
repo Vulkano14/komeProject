@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6067526547601978205}
   - component: {fileID: 4829506925714251163}
   - component: {fileID: -5725906197998171780}
+  - component: {fileID: -1591571174043559573}
   m_Layer: 0
   m_Name: FireFirstEnemy
   m_TagString: Untagged
@@ -27,7 +28,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3975533976479064100}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.082394, y: 1.0585712, z: 0}
+  m_LocalPosition: {x: 30.02, y: 1.0585712, z: 0}
   m_LocalScale: {x: 3.961, y: 3.961, z: 3.961}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -119,3 +120,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13b8af03b2cc65f4ca5cba467ed31ead, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!58 &-1591571174043559573
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3975533976479064100}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.15999998

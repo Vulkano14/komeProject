@@ -5,28 +5,21 @@ using UnityEngine.UI;
 
 public class playerController : MonoBehaviour
 {
-    public float speed = 5f;
+     Vector2 startPosition;
+     Vector2 moveDirection = Vector2.zero;
+     Rigidbody2D _rb;
+     BoxCollider2D boundsCollider;
+     Animator _animator;
 
-    private Vector2 startPosition;
-    private Vector2 moveDirection = Vector2.zero;
-    private SpriteRenderer spriteRenderer;
-    private Rigidbody2D rb;
-    private BoxCollider2D boundsCollider;
-    private Animator _animator;
-    [SerializeField]GameObject _character;
+    float speed = 5f;
     bool _characterRotated = true;
 
+    [SerializeField] GameObject _character;
     [SerializeField] Text _healthText;
-    private int _health = 100;
-    int _damageTroll = 10;
-
-    float cooldownGetDamage;
-    bool zmienna = true;
 
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        _rb = GetComponent<Rigidbody2D>();
         boundsCollider = FindObjectOfType<cmaeraBlockedArrea>().boundsCollider;
         _animator = GetComponent<Animator>();
     }
@@ -47,20 +40,16 @@ public class playerController : MonoBehaviour
             }
             else if (touch.phase == TouchPhase.Ended)
                 moveDirection = Vector2.zero;
-        }
+        }   
 
         swordAttack();
 
-        if (!zmienna)
-            GetDamage();
-
-        _healthText.text = "" + _health;
-        Debug.Log(cooldownGetDamage);
+        _healthText.text = "" + GameManager.gameManager._playerHealth.Health;  //Displaying HP in the lower left corner
     }
 
     void FixedUpdate()
     {
-        rb.velocity = moveDirection * speed;
+        _rb.velocity = moveDirection * speed;
 
         if (moveDirection.x > 0 && _characterRotated)
             CharacterRotated();
@@ -68,9 +57,9 @@ public class playerController : MonoBehaviour
         else if (moveDirection.x < 0 && !_characterRotated)
             CharacterRotatedUndo();
 
-        float xPosition = Mathf.Clamp(rb.position.x, boundsCollider.bounds.min.x + 0.5f, boundsCollider.bounds.max.x - 0.5f);
-        float yPosition = Mathf.Clamp(rb.position.y, boundsCollider.bounds.min.y + 0.5f, boundsCollider.bounds.max.y - 0.5f);
-        rb.position = new Vector2(xPosition, yPosition);
+        float xPosition = Mathf.Clamp(_rb.position.x, boundsCollider.bounds.min.x + 0.5f, boundsCollider.bounds.max.x - 0.5f);
+        float yPosition = Mathf.Clamp(_rb.position.y, boundsCollider.bounds.min.y + 0.5f, boundsCollider.bounds.max.y - 0.5f);
+        _rb.position = new Vector2(xPosition, yPosition);
     }
 
     void swordAttack()
@@ -101,28 +90,5 @@ public class playerController : MonoBehaviour
     {
         _characterRotated = true;
         _character.transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
-    }
-
-    void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (zmienna)
-            if (collision.CompareTag("Troll"))
-            {
-                _health -= _damageTroll;
-                cooldownGetDamage = 3f;
-                zmienna = false;
-            }
-    }
-
-    void GetDamage()
-    {
-        if (!zmienna)
-        {
-            cooldownGetDamage -= Time.deltaTime;
-
-            if (cooldownGetDamage <= 0f)
-                zmienna = true;
-
-        }
     }
 }

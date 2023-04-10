@@ -15,12 +15,18 @@ public class enemyLogic : MonoBehaviour
     [SerializeField] GameObject _ammoPrefab;
     [SerializeField] Transform _positionFire;
     [SerializeField] float distance;
+    [SerializeField] GameObject _blood;
+    private playerController playerController;
+
+    int _trollDamage = 10;
+    bool _trollCanAttack = true;
 
 
     void Start()
     {
         player = GameObject.Find("Player").transform;
         _sprite = GetComponent<SpriteRenderer>();
+        playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<playerController>();
     }
 
     void Update()
@@ -63,6 +69,7 @@ public class enemyLogic : MonoBehaviour
                 _canAttackEnemy = false;
             }
         }
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -80,12 +87,26 @@ public class enemyLogic : MonoBehaviour
                 _attackCooldown = 2f;
 
                 if (_colisions >= 3)
+                {
                     Destroy(gameObject);
+                    GameObject bloodObject = Instantiate(_blood, gameObject.transform.position, Quaternion.identity);
+                    Destroy(bloodObject, 2f);
+                }     
             }
-        }      
+        }
+
+        if (collision.CompareTag("Player") && _trollCanAttack == true)
+        {
+            GameManager.gameManager._playerHealth.DmgUnit(_trollDamage);
+            _trollCanAttack = !_trollCanAttack;
+            Invoke("TrollCanAttackReset", 2f);
+        }
     }
 
-
+    void TrollCanAttackReset()
+    {
+        _trollCanAttack = true;
+    }
 
     void Shoot()
     {
@@ -97,4 +118,8 @@ public class enemyLogic : MonoBehaviour
         _attackCooldownEnemy = 3f;
     }
 }
+
+
+
+
 

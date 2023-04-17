@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class cmaeraBlockedArrea : MonoBehaviour
 {
-    private Camera mainCamera;
+    Camera mainCamera;
     public BoxCollider2D boundsCollider;
-    private void Start()
+    void Awake()
     {
         mainCamera = Camera.main;
         boundsCollider = GetComponent<BoxCollider2D>();
@@ -15,12 +15,12 @@ public class cmaeraBlockedArrea : MonoBehaviour
         if (boundsCollider == null)
             boundsCollider = gameObject.AddComponent<BoxCollider2D>();
 
-        // Ustaw rozmiary BoxCollider2D na rozmiary kamery
+        // Set BoxCollider2D sizes to camera sizes
         float screenAspect = (float)Screen.width / (float)Screen.height;
         float cameraHeight = mainCamera.orthographicSize * 2f;
         boundsCollider.size = new Vector2(cameraHeight * screenAspect, cameraHeight);
 
-        // Ustaw pozycjê BoxCollider2D na œrodek ekranu
+        // Position BoxCollider2D to the center of the screen
         Vector3 cameraPosition = mainCamera.transform.position;
         boundsCollider.transform.position = new Vector3(cameraPosition.x, cameraPosition.y, boundsCollider.transform.position.z);
     }

@@ -5,7 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - WeaponAxe
-  - Troll
+  - Enemy01
+  - Enemy02
+  - Enemy00
   layers:
   - Default
   - TransparentFX

@@ -6,6 +6,7 @@ public class UnitHealth
 {
     int _currentHealth;
     int _currentMaxHealth;
+    int _damagePlayer;
 
     public int Health
     {
@@ -31,10 +32,25 @@ public class UnitHealth
         }
     }
 
-    public UnitHealth(int health, int maxHealth)
+    public int DamagePlayer
+    {
+        get
+        {
+            return _damagePlayer;
+        }
+
+        set
+        {
+            _damagePlayer = value;
+        }
+    }
+
+    public UnitHealth(int health, int maxHealth, int damage)
     {
         _currentHealth = health;
         _currentMaxHealth = maxHealth;
+        _damagePlayer = damage;
+        
     }
 
     public void DmgUnit(int dmgAmount)

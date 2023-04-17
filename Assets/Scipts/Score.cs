@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class Score : MonoBehaviour
 {
-    private Text score;
-    private spawner spawnerScript;
+    Text score;
+    spawner spawnerScript;
     void Start()
     {
         score = GetComponent<Text>();
@@ -15,7 +15,7 @@ public class Score : MonoBehaviour
 
     void Update()
     {
-        score.text = "Score: " + spawnerScript.scoreNumber;
+        score.text = "Score: " + spawnerScript._numberEnemy;
 
     }
 }

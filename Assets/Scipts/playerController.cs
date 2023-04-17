@@ -10,18 +10,19 @@ public class playerController : MonoBehaviour
      Rigidbody2D _rb;
      BoxCollider2D boundsCollider;
      Animator _animator;
+     [SerializeField] enemyLogic _enemyLogic;
 
     float speed = 5f;
     bool _characterRotated = true;
 
     [SerializeField] GameObject _character;
-    [SerializeField] Text _healthText;
 
     void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
         boundsCollider = FindObjectOfType<cmaeraBlockedArrea>().boundsCollider;
         _animator = GetComponent<Animator>();
+        _enemyLogic = GetComponent<enemyLogic>();
     }
 
     void Update()
@@ -42,9 +43,7 @@ public class playerController : MonoBehaviour
                 moveDirection = Vector2.zero;
         }   
 
-        swordAttack();
-
-        _healthText.text = "" + GameManager.gameManager._playerHealth.Health;  //Displaying HP in the lower left corner
+        SwordAttack();
     }
 
     void FixedUpdate()
@@ -62,7 +61,7 @@ public class playerController : MonoBehaviour
         _rb.position = new Vector2(xPosition, yPosition);
     }
 
-    void swordAttack()
+    void SwordAttack()
     {
         if (Input.touchCount > 0)
         {
@@ -90,5 +89,13 @@ public class playerController : MonoBehaviour
     {
         _characterRotated = true;
         _character.transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
+    }
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("WeaponAxe"))
+        {
+
+        }
     }
 }
